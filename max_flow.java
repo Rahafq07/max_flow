@@ -26,7 +26,7 @@ public class max_flow {
      */
     public static void main(String[] args) {
 
-        Graph graph = new Graph(); // object from Graph type 
+        WGraph graph = new WGraph(vertices); // object from Graph type 
         int source = graph.getSource(); //Determine the source
         int sink = graph.getSink(); //Determine the sink
         
@@ -45,7 +45,7 @@ public class max_flow {
      * @param source network source
      * @param sink network sink
      */
-    public static void EdmondsKarp(Graph graph, int source, int sink) {
+    public static void EdmondsKarp(WGraph graph, int source, int sink) {
 
         
         System.out.println("--------------------------------------");
@@ -62,7 +62,7 @@ public class max_flow {
         for (i = 0; i < vertices; i++) {
             for (j = 0; j < vertices; j++) {
                 // Storing all edges from the original Graph to the remaining Graph (If rGraph [i] [j] is 0, then there is Not an edge)
-                remGraph[i][j] = graph.adj[i][j];
+                remGraph[i][j] = graph.matrix[i][j];
             }
         }
         
@@ -83,7 +83,7 @@ public class max_flow {
                 i = parent[j];
                 pathFlow = Math.min(pathFlow, remGraph[i][j]); //Returns the smaller of two int values 
                 
-                if (graph.adj[i][j] != 0) {
+                if (graph.matrix[i][j] != 0) {
                     direction = " → "; // String variable that specify the direction of the path
                 }
                 path = direction + (j + 1) + path;
@@ -128,14 +128,14 @@ public class max_flow {
             // Print all edges that are from a reachable vertex to non-reachable vertex in the original graph
             int total_cut=0;
             
-            for (i = 0; i < graph.adj.length; i++) {
-                for (j = 0; j < graph.adj.length; j++) {
+            for (i = 0; i < graph.matrix.length; i++) {
+                for (j = 0; j < graph.matrix.length; j++) {
                     
-                    if (graph.adj[i][j] > 0 && isVisited[i] && !isVisited[j]) {
+                    if (graph.matrix[i][j] > 0 && isVisited[i] && !isVisited[j]) {
                         
                         System.out.print("\nEdge: "+(i+1) + "-" + (j+1));
-                        System.out.println(" , capacity = "+graph.adj[i][j]);
-                        total_cut+=graph.adj[i][j];
+                        System.out.println(" , capacity = "+graph.matrix[i][j]);
+                        total_cut+=graph.matrix[i][j];
                         System.out.println("Updated min-cut capicity: "+total_cut);
                         
                     }
